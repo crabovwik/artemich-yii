@@ -1,0 +1,8 @@
+.idea
+ignore.file
+
+app/vendor/
+app/node_modules/
+
+docker/data/db/mysql/data
+docker/data/logs

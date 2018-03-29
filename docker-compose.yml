@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+    docker_nginx:
+        restart: always
+        build:
+            context: "./docker/build/nginx"
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "./app:/var/www"
+            - "./docker/data/logs/nginx:/var/log/nginx"
+        depends_on:
+            - docker_php
+            - docker_mysql
+
+    docker_php:
+        restart: always
+        build:
+            context: "./docker/build/php"
+        expose:
+          - 9000
+        volumes:
+            - "./app:/var/www"
+
+    docker_mysql:
+        restart: always
+        build:
+            context: "./docker/build/mysql"
+        env_file:
+            - ".env"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        expose:
+          - 3306
+        volumes:
+            - "./docker/data/db/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql"
+            - "./docker/data/db/mysql/data:/var/lib/mysql"
+
+    docker_composer:
+        image: "composer"
+        volumes:
+            - "./app:/app"
+        command: install
