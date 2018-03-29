@@ -34,6 +34,7 @@ RUN set -ex \
         php7-ctype@testing \
         php7-pgsql@testing \
         php7-pdo_pgsql@testing \
+        php7-pdo_mysql@testing \
         php7-mbstring@testing \
         php7-xdebug@testing \
         bash \

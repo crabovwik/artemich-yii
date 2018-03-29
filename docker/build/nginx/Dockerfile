@@ -11,9 +11,6 @@ RUN set -ex \
  && sed -i -e 's/worker_processes\s*1;/worker_processes  auto;/g' /etc/nginx/nginx.conf \
  && rm -rf /var/cache/apk/*
 
-COPY config/ssl-private.key /etc/ssl/private/ssl-private.key
-COPY config/ssl-bundle.crt /etc/ssl/certs/ssl-bundle.crt
-
 COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/default.conf /etc/nginx/conf.d/default.conf
 
